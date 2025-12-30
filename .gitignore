@@ -1,0 +1,11 @@
+# Blocklist files/folders in same directory as the .gitignore file
+/*
+
+# Includelist some files
+!.gitignore
+!.terraformrc
+!.tfenv
+!.profile
+!.tmux.conf
+!.zshrc
+!.config/snowflake/config.toml
