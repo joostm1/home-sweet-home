@@ -5,6 +5,7 @@ plugins=(
 	gitfast
 	zsh-autosuggestions
 	fast-syntax-highlighting
+	ssh-agent
 )
 eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
