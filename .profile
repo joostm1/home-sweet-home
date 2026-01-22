@@ -1,13 +1,8 @@
 # additional command search locations
-echo "\
-~/bin
-~/.local/bin
-/usr/local/go/bin
-" | while read d
-do
-	[[ -d $d ]] && export PATH=$PATH:$d
-done
-
+[ -d ~/bin/ ] && export PATH=$PATH:~/bin
+[ -d ~/.bin/ ] && export PATH=$PATH:~/.bin
+[ -d ~/.local/bin/ ] && export PATH=$PATH:~/.local/bin
+[ -d ~/.fzf/bin/ ] && export PATH=$PATH:~/.fzf/bin
 # node version manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

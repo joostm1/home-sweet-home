@@ -1,5 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 export FZF_BASE="HOME"/.fzf
+export FZF_DEFAULT_OPTS='--tmux'
 ZSH_THEME="sunaku"
 plugins=(
 	gitfast
@@ -9,12 +10,10 @@ plugins=(
 )
 eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(~/.fzf/bin/fzf --zsh)
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
-# fzf options
-export FZF_DEFAULT_OPTS='--tmux'
 
 zstyle ':completion:*' menu select
 #compdef -c
