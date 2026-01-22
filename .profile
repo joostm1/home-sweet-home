@@ -3,6 +3,7 @@
 [ -d ~/.bin/ ] && export PATH=$PATH:~/.bin
 [ -d ~/.local/bin/ ] && export PATH=$PATH:~/.local/bin
 [ -d ~/.fzf/bin/ ] && export PATH=$PATH:~/.fzf/bin
+[ -d /usr/local/go/bin ] && export PATH=$PATH:/usr/local/go/bin
 # node version manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
