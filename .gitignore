@@ -8,7 +8,6 @@
 !.profile
 !.tmux.conf
 !.zshrc
-!/.ssh/
 !/.ssh/config
 !.fzf.zsh
 !.extrabindirs
