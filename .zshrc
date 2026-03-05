@@ -14,10 +14,6 @@ addtopath ()
 		print path
 	}'
 }
-while read extrabindir
-do
-	PATH=$(addtopath $extrabindir)
-done < ~/.extrabindirs
 
 # match the default XDG directories
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -25,17 +21,30 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+export FZF_BASE="$HOME/.fzf"
+
+extrabindirs=(
+	~/bin
+	~/.bin
+	$XDG_DATA_HOME/../bin
+	$FZF_BASE/bin
+	/usr/local/go/bin
+)
+for d in "${extrabindirs[@]}"; do
+	[ -d "$d" ] && PATH=$(addtopath "$d")
+done
+
+# uv package manager
 export UV_NATIVE_TLS=true
 
 # zsh and friends
 export ZSH="$HOME/.oh-my-zsh"
-export FZF_BASE="$HOME/.fzf"
 export FZF_DEFAULT_OPTS='--tmux'
 ZSH_THEME="sunaku"
 plugins=(
 	gitfast
 	zsh-autosuggestions
-	fast-syntax-highlighting
+	zsh-syntax-highlighting
 )
 eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
