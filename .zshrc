@@ -56,7 +56,8 @@ eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
 source <($FZF_BASE/bin/fzf --zsh)
 
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
+# completion
+autoload -Uz compinit; compinit
 zstyle ':completion:*' menu select
 __c_completion() {
   eval $(env _TYPER_COMPLETE_ARGS="${words[1,$CURRENT]}" __C_COMPLETE=complete_zsh -c)
