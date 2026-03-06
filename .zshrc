@@ -21,6 +21,13 @@ XDG_CONFIG_HOME="$HOME/.config"
 XDG_CACHE_HOME="$HOME/.cache"
 XDG_STATE_HOME="$HOME/.local/state"
 
+# fzf
+FZF_DEFAULT_OPTS='--tmux'
+FZF_BASE="$HOME/.fzf"
+[[ ! -d "$FZF_BASE" ]] && \
+	git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_BASE" && \
+		"$FZF_BASE/install" --bin --no-update-rc --no-bash --no-fish
+
 extrabindirs=(
 	~/bin
 	~/.bin
@@ -39,10 +46,6 @@ UV_NATIVE_TLS=true
 ZSH="$HOME/.oh-my-zsh"
 [[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
 
-# fzf
-FZF_BASE="$HOME/.fzf"
-FZF_DEFAULT_OPTS='--tmux'
-[[ ! -d "$FZF_BASE" ]] && git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_BASE" && "$FZF_BASE/install" --bin --no-update-rc --no-bash --no-fish
 
 ZSH_THEME="sunaku"
 plugins=(
