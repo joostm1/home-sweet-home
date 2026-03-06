@@ -16,12 +16,10 @@ addtopath ()
 }
 
 # match the default XDG directories
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_STATE_HOME="$HOME/.local/state"
-
-export FZF_BASE="$HOME/.fzf"
+XDG_DATA_HOME="$HOME/.local/share"
+XDG_CONFIG_HOME="$HOME/.config"
+XDG_CACHE_HOME="$HOME/.cache"
+XDG_STATE_HOME="$HOME/.local/state"
 
 extrabindirs=(
 	~/bin
@@ -35,11 +33,17 @@ for d in "${extrabindirs[@]}"; do
 done
 
 # uv package manager
-export UV_NATIVE_TLS=true
+UV_NATIVE_TLS=true
 
-# zsh and friends
-export ZSH="$HOME/.oh-my-zsh"
-export FZF_DEFAULT_OPTS='--tmux'
+# oh-my-zsh
+ZSH="$HOME/.oh-my-zsh"
+[[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
+
+# fzf
+FZF_BASE="$HOME/.fzf"
+FZF_DEFAULT_OPTS='--tmux'
+[[ ! -d "$FZF_BASE" ]] && git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_BASE" && "$FZF_BASE/install" --bin --no-update-rc --no-bash --no-fish
+
 ZSH_THEME="sunaku"
 plugins=(
 	gitfast
