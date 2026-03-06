@@ -46,7 +46,6 @@ UV_NATIVE_TLS=true
 ZSH="$HOME/.oh-my-zsh"
 [[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
 
-
 ZSH_THEME="sunaku"
 plugins=(
 	gitfast
@@ -58,12 +57,8 @@ source $ZSH/oh-my-zsh.sh
 source <($FZF_BASE/bin/fzf --zsh)
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
-
 zstyle ':completion:*' menu select
-#compdef -c
-
 __c_completion() {
   eval $(env _TYPER_COMPLETE_ARGS="${words[1,$CURRENT]}" __C_COMPLETE=complete_zsh -c)
 }
-
 compdef __c_completion -c
