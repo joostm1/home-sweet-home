@@ -34,6 +34,7 @@ extrabindirs=(
 	$XDG_DATA_HOME/../bin
 	$FZF_BASE/bin
 	/usr/local/go/bin
+	~/.opencode/bin
 )
 for d in "${extrabindirs[@]}"; do
 	[ -d "$d" ] && PATH=$(addtopath "$d")
