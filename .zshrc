@@ -40,8 +40,9 @@ for d in "${extrabindirs[@]}"; do
 	[ -d "$d" ] && PATH=$(addtopath "$d")
 done
 
-# uv package manager
-UV_NATIVE_TLS=true
+# random assortiment of environment variables
+UV_NATIVE_TLS=true 	# uv package manager
+DBT_LOG_PATH=/tmp/dbt-logs # to prevent fusion create a logs in my repo's
 
 # oh-my-zsh
 ZSH="$HOME/.oh-my-zsh"
