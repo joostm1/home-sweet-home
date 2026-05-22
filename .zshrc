@@ -24,6 +24,14 @@ XDG_STATE_HOME="$HOME/.local/state"
 # fzf
 FZF_DEFAULT_OPTS='--tmux'
 FZF_BASE="$HOME/.fzf"
+
+# random assortiment of environment variables
+UV_NATIVE_TLS=true 	# uv package manager
+DBT_LOG_PATH=/tmp/dbt-logs # to prevent fusion create a logs in my repo's
+ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="sunaku"
+[[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
+
 [[ ! -d "$FZF_BASE" ]] && \
 	git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_BASE" && \
 		"$FZF_BASE/install" --bin --no-update-rc --no-bash --no-fish
@@ -40,15 +48,6 @@ for d in "${extrabindirs[@]}"; do
 	[ -d "$d" ] && PATH=$(addtopath "$d")
 done
 
-# random assortiment of environment variables
-UV_NATIVE_TLS=true 	# uv package manager
-DBT_LOG_PATH=/tmp/dbt-logs # to prevent fusion create a logs in my repo's
-
-# oh-my-zsh
-ZSH="$HOME/.oh-my-zsh"
-[[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
-
-ZSH_THEME="sunaku"
 plugins=(
 	gitfast
 	zsh-autosuggestions
