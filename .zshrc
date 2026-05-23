@@ -1,6 +1,6 @@
 # since zsh is the final word in shells, there's only file: .zshrc.this()
 
-# helper to add a directory to $PATH if it's not already there
+# helper to add a directory to $PATH
 addtopath ()
 {
 	awk -v home="$HOME" -v dir="$1" -v path="$PATH" 'BEGIN {
@@ -28,28 +28,48 @@ XDG_STATE_HOME="$HOME/.local/state"
 XDG_BIN=$XDG_DATA_HOME/../bin # where xdg aware tools install binaries
 UV_SYSTEM_CERTS=true # uv should use system certs instead of vendored ones
 DBT_LOG_PATH=/tmp/dbt-logs # to prevent dbt fusion create a logs dir in every repo
-ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="sunaku"
-FZF_DEFAULT_OPTS='--tmux' # use fzf in tmux
-FZF_BASE="$HOME/.fzf" # fuzzy finder
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME=sunaku
+FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
+FZF_BASE=$HOME/.fzf # fuzzy finder
 
-# install favorite tools
+# .ssh for starters
+[[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
+	AddKeysToAgent yes
+
+	## example azure devops
+	# Host ssh.dev.azure.com
+	# HostName ssh.dev.azure.com
+    # IdentityFile ~/.ssh/azdevops.key
+	# IdentitiesOnly yes
+    # User git
+
+	## example jump host
+	# Host jumphost.example.com
+    # IdentityFile ~/.ssh/jumphost.key
+    # ForwardAgent yes
+	# LocalForward 2200 localhost:22
+EOT
+
+# fetch favorites
 ## oh-my
-[[ ! -d "$ZSH" ]] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+[[ ! -d $ZSH ]] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ## syntax highlighting
-[[ ! -d "$ZSH/custom/plugins/zsh-syntax-highlighting" ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting
+[[ ! -d $ZSH/custom/plugins/zsh-syntax-highlighting ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting
 ## autosuggestions
-[[ ! -d "$ZSH/custom/plugins/zsh-autosuggestions" ]] && git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
+[[ ! -d $ZSH/custom/plugins/zsh-autosuggestions ]] && git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
 ## Fuzzy finder
-[[ ! -d "$FZF_BASE" ]] && git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_BASE" && "$FZF_BASE/install" --bin --no-update-rc --no-bash --no-fish
+[[ ! -d $FZF_BASE ]] && git clone --depth 1 https://github.com/junegunn/fzf.git $FZF_BASE && $FZF_BASE/install --bin --no-update-rc --no-bash --no-fish
 ## uv
-[[ ! -x "$XDG_BIN/uv" ]] && curl -LsSf https://astral.sh/uv/install.sh | sh
+[[ ! -x $XDG_BIN/uv ]] && curl -LsSf https://astral.sh/uv/install.sh | sh && UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 ## opencode
-[[ ! -x "$HOME/.opencode/bin/opencode" ]] && curl -fsSL https://opencode.ai/install | bash
+[[ ! -x $HOME/.opencode/bin/opencode ]] && curl -fsSL https://opencode.ai/install | bash
 ## zoxide directory jumper
-[[ ! -x "$XDG_BIN/zoxide" ]] && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+[[ ! -x $XDG_BIN/zoxide ]] && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 ## snow cli
-[[ ! -d $("$XDG_BIN/uv" tool dir)/snowflake-cli ]] && "$XDG_BIN/uv" tool install snowflake-cli
+[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/snowflake-cli ]] && $XDG_BIN/uv tool install snowflake-cli
+## dbt-core -- who can go without it?
+[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core dbt-snowflake && ln -s $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
 
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
