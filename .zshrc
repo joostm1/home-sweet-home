@@ -61,7 +61,8 @@ EOT
 ## Fuzzy finder
 [[ ! -d $FZF_BASE ]] && git clone --depth 1 https://github.com/junegunn/fzf.git $FZF_BASE && $FZF_BASE/install --bin --no-update-rc --no-bash --no-fish
 ## uv
-[[ ! -x $XDG_BIN/uv ]] && curl -LsSf https://astral.sh/uv/install.sh | sh && UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
+[[ ! -x $XDG_BIN/uv ]] && curl -LsSf https://astral.sh/uv/install.sh | sh
+UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 ## opencode
 [[ ! -x $HOME/.opencode/bin/opencode ]] && curl -fsSL https://opencode.ai/install | bash
 ## zoxide directory jumper
