@@ -69,7 +69,7 @@ EOT
 ## snow cli
 [[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/snowflake-cli ]] && $XDG_BIN/uv tool install snowflake-cli
 ## dbt-core -- who can go without it?
-[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core dbt-snowflake && ln -s $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
+[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core --with dbt-postgres,dbt-snowflake --python 3.13 && ln -fs $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
 
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
