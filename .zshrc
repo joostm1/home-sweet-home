@@ -71,6 +71,8 @@ UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 [[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/snowflake-cli ]] && $XDG_BIN/uv tool install snowflake-cli
 ## dbt-core -- who can go without it?
 [[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core --with dbt-postgres,dbt-snowflake --python 3.13 && ln -fs $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
+## tmux plugins
+[[ ! -d $HOME/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm && $HOME/.tmux/plugins/tpm/bin/install_plugins
 
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
