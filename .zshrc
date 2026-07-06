@@ -32,6 +32,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME=sunaku
 FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
 FZF_BASE=$HOME/.fzf # fuzzy finder
+NVM_DIR=$HOME/.nvm # node version manager
 
 # .ssh for starters
 [[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
@@ -73,6 +74,8 @@ UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 [[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core --with dbt-postgres,dbt-snowflake --python 3.13 && ln -fs $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
 ## tmux plugins
 [[ ! -d $HOME/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm && $HOME/.tmux/plugins/tpm/bin/install_plugins
+## node version manager
+[[ ! -d $NVM_DIR ]] && git clone https://github.com/nvm-sh/nvm.git $NVM_DIR
 
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
@@ -96,6 +99,7 @@ plugins=(
 eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
 source <($FZF_BASE/bin/fzf --zsh)
+source "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # completion
 autoload -Uz compinit; compinit
