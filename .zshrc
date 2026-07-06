@@ -24,15 +24,15 @@ XDG_CONFIG_HOME="$HOME/.config"
 XDG_CACHE_HOME="$HOME/.cache"
 XDG_STATE_HOME="$HOME/.local/state"
 
-# random assortment of environment variables
+# random assortment of environment variables to help our forthcoming zsh experience
 XDG_BIN=$XDG_DATA_HOME/../bin # where xdg aware tools install binaries
 UV_SYSTEM_CERTS=true # uv should use system certs instead of vendored ones
-DBT_LOG_PATH=/tmp/dbt-logs # to prevent dbt fusion create a logs dir in every repo
-ZSH=$HOME/.oh-my-zsh
+DBT_LOG_PATH=/tmp/dbt-logs # to prevent fdbt fusion create a logs dir in every repo
+ZSH=$HOME/.oh-my-zsh # did oh-my scoop $ZSH?
 ZSH_THEME=sunaku
 FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
 FZF_BASE=$HOME/.fzf # fuzzy finder
-NVM_DIR=$HOME/.nvm # node version manager
+NVM_DIR=$HOME/.nvm # where you want that nvm lives
 
 # .ssh for starters
 [[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
