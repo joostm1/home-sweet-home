@@ -32,7 +32,7 @@ ZSH=$HOME/.oh-my-zsh # did oh-my scoop $ZSH?
 ZSH_THEME=sunaku
 FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
 FZF_BASE=$HOME/.fzf # fuzzy finder
-NVM_DIR=$HOME/.nvm # where you want that nvm lives
+NVM_DIR=$HOME/.nvm # where node version manager lives
 
 # .ssh for starters
 [[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
