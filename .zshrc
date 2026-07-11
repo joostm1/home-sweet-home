@@ -33,6 +33,7 @@ ZSH_THEME=sunaku
 FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
 FZF_BASE=$HOME/.fzf # fuzzy finder
 NVM_DIR=$HOME/.nvm # where node version manager lives
+UMASK=027 # remove w from group and rwx from other
 
 # .ssh for starters
 [[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
@@ -41,14 +42,14 @@ NVM_DIR=$HOME/.nvm # where node version manager lives
 	## example azure devops
 	# Host ssh.dev.azure.com
 	# HostName ssh.dev.azure.com
-    # IdentityFile ~/.ssh/azdevops.key
+	# IdentityFile ~/.ssh/azdevops.key
 	# IdentitiesOnly yes
-    # User git
+	# User git
 
 	## example jump host
 	# Host jumphost.example.com
-    # IdentityFile ~/.ssh/jumphost.key
-    # ForwardAgent yes
+	# IdentityFile ~/.ssh/jumphost.key
+	# ForwardAgent yes
 	# LocalForward 2200 localhost:22
 EOT
 
