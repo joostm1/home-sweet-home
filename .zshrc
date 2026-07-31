@@ -109,3 +109,8 @@ __c_completion() {
   eval $(env _TYPER_COMPLETE_ARGS="${words[1,$CURRENT]}" __C_COMPLETE=complete_zsh -c)
 }
 compdef __c_completion -c
+
+# tmux is the default interactive workspace, but zsh remains the login shell
+if [[ -o interactive && -z "$TMUX" && "$TERM" != "dumb" ]] && command -v tmux >/dev/null; then
+	tmux attach-session -t main || tmux new-session -s main
+fi
