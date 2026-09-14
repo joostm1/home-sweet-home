@@ -1,4 +1,4 @@
-# since zsh is the final word in shells, there's only file: .zshrc.this()
+# zsh is the final word in shells; extra snippets live in .config/zsh/rc.d
 
 # helper to add a directory to $PATH
 addtopath ()
@@ -101,6 +101,11 @@ eval "$(zoxide init zsh)"
 source $ZSH/oh-my-zsh.sh
 source <($FZF_BASE/bin/fzf --zsh)
 source "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# source in aliases
+for rc in "$XDG_CONFIG_HOME"/zsh/rc.d/*.zsh(N); do
+	source "$rc"
+done
 
 # completion
 autoload -Uz compinit; compinit

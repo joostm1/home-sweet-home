@@ -8,7 +8,12 @@
 !.profile
 !.tmux.conf
 !.zshrc
+!.config/
+!.config/zsh/
+!.config/zsh/rc.d/
+!.config/zsh/rc.d/*.zsh
 !/.ssh/config
 !.fzf.zsh
 !.extrabindirs
+!README.md
 
