@@ -1,28 +1,4 @@
-# Git helpers. Interactive fzf workflows are functions, not aliases.
-
-alias g='git'
-alias ga='git add'
-alias gaa='git add --all'
-alias gb='git branch'
-alias gbd='git branch -d'
-alias gc='git commit'
-alias gca='git commit --amend'
-alias gcam='git commit -am'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gf='git fetch'
-alias gl='git pull'
-alias glo='git log --oneline --decorate'
-alias glog='git log --oneline --decorate --graph'
-alias gp='git push'
-alias gr='git restore'
-alias grs='git restore --staged'
-alias gsh='git show'
-alias gst='git status -sb'
-alias gsta='git stash'
-alias gstp='git stash pop'
-alias gsw='git switch'
-alias gswc='git switch -c'
+# Git helpers: a few interactive fzf workflows, not thin aliases for git subcommands.
 
 # Local branch → git switch
 gfb() {
@@ -73,16 +49,37 @@ gfa() {
 	(( $#files )) && git add -- "$files[@]"
 }
 
-# Stash list → git stash apply
-gfs() {
+# Stash push / pop with fzf pickers
+gstash() {
 	git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
 
-	local stash
-	stash=$(
-		git stash list --format='%gd %s' \
-		| fzf --prompt='stash> ' --ansi \
-			--preview='git stash show -p --color=always {1}'
-	) || return
+	local action
+	action=$(printf 'push\npop\n' | fzf --prompt='stash> ') || return
 
-	[[ -n "$stash" ]] && git stash apply "${stash%% *}"
+	case $action in
+		push)
+			local -a files
+			files=(${(f)"$(
+				git ls-files -m -o --exclude-standard \
+				| fzf --multi --prompt='stash push> ' --ansi \
+					--preview='git diff --color=always -- {1} 2>/dev/null || git diff --color=always --no-index /dev/null {1}'
+			)"}) || return
+
+			if (( $#files )); then
+				git stash push --include-untracked -- "$files[@]"
+			else
+				git stash push
+			fi
+			;;
+		pop)
+			local stash
+			stash=$(
+				git stash list --format='%gd %s' \
+				| fzf --prompt='stash pop> ' --ansi \
+					--preview='git stash show -p --color=always {1}'
+			) || return
+
+			[[ -n "$stash" ]] && git stash pop "${stash%% *}"
+			;;
+	esac
 }
