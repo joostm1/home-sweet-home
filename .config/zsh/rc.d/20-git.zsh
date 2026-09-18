@@ -7,13 +7,13 @@ _git_in_repo() {
 
 _git_file_preview='git diff --color=always -- {1} 2>/dev/null || git diff --color=always --no-index /dev/null {1}'
 
-# Local + remote branches (newest commit first) → git switch
-gsw() {
+# Branch switch pickers (newest commit first). gsw = local+remote; gswl/gswr = filtered.
+_gsw_pick() {
 	_git_in_repo || return
 
 	local selection branch
 	selection=$(
-		git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads refs/remotes \
+		git for-each-ref --sort=-committerdate --format='%(refname:short)' "$@" \
 		| grep -v '/HEAD$' \
 		| fzf --prompt='switch> ' --ansi \
 			--preview='git log --oneline --decorate --color=always --graph -20 {1}'
@@ -35,6 +35,10 @@ gsw() {
 		return 1
 	fi
 }
+
+gsw()  { _gsw_pick refs/heads refs/remotes }
+gswl() { _gsw_pick refs/heads }
+gswr() { _gsw_pick refs/remotes }
 
 alias gswc='git switch -c'
 
