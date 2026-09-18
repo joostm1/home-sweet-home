@@ -1,4 +1,4 @@
-# General interactive aliases. Tool-specific snippets live in later files.
+# General interactive aliases. Tool-specific snippets live in sibling files.
 
 alias ll='ls -lah'
 alias la='ls -A'
