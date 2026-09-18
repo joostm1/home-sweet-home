@@ -8,7 +8,7 @@ _git_in_repo() {
 
 _git_file_preview='git diff --color=always -- {1} 2>/dev/null || git diff --color=always --no-index /dev/null {1}'
 
-# switch: local | remote (optional $1 skips the action picker)
+# switch: local | remote | create (optional $1 skips the action picker)
 gswitch() {
 	_git_in_repo || return
 
@@ -45,16 +45,25 @@ gswitch() {
 				git switch --track "$remote_ref"
 			fi
 			;;
+		create)
+			shift
+			if [[ -z "$1" ]]; then
+				print -u2 "gswitch create: branch name required"
+				return 1
+			fi
+			git switch -c "$@"
+			;;
 		*)
-			print -u2 "gswitch: unknown action '$action' (local|remote)"
+			print -u2 "gswitch: unknown action '$action' (local|remote|create)"
 			return 1
 			;;
 	esac
 }
 
-# High-frequency shortcuts into gswitch (unambiguous: local / remote)
+# High-frequency shortcuts into gswitch (unambiguous: local / remote / create)
 alias gswl='gswitch local'
 alias gswr='gswitch remote'
+alias gswc='gswitch create'
 
 # log: show | hash
 glog() {
