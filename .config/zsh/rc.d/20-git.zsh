@@ -1,6 +1,5 @@
 # Git helpers: a few interactive fzf workflows, not thin aliases for git subcommands.
-# Pattern: named after the subcommand, action picker first, then a contextual fzf.
-# High-frequency shortcuts (e.g. gswl/gswr) are fine when unambiguous and call the same helper.
+# Pattern: named after the subcommand, action picker first when it adds a mode, then a contextual fzf.
 
 _git_in_repo() {
 	git rev-parse --is-inside-work-tree >/dev/null 2>&1
@@ -8,53 +7,35 @@ _git_in_repo() {
 
 _git_file_preview='git diff --color=always -- {1} 2>/dev/null || git diff --color=always --no-index /dev/null {1}'
 
-# switch: local | remote (optional $1 skips the action picker)
-gswitch() {
+# Local + remote branches (newest commit first) → git switch
+gsw() {
 	_git_in_repo || return
 
-	local action=${1:-}
-	if [[ -z "$action" ]]; then
-		action=$(printf 'local\nremote\n' | fzf --prompt='switch> ') || return
+	local selection branch
+	selection=$(
+		git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads refs/remotes \
+		| grep -v '/HEAD$' \
+		| fzf --prompt='switch> ' --ansi \
+			--preview='git log --oneline --decorate --color=always --graph -20 {1}'
+	) || return
+
+	[[ -z "$selection" ]] && return
+
+	if git show-ref --verify --quiet "refs/heads/$selection"; then
+		git switch "$selection"
+	elif git show-ref --verify --quiet "refs/remotes/$selection"; then
+		branch="${selection#*/}"
+		if git show-ref --verify --quiet "refs/heads/$branch"; then
+			git switch "$branch"
+		else
+			git switch --track "$selection"
+		fi
+	else
+		print -u2 "gsw: unknown ref '$selection'"
+		return 1
 	fi
-
-	case $action in
-		local)
-			local branch
-			branch=$(
-				git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads \
-				| fzf --prompt='switch local> ' --ansi \
-					--preview='git log --oneline --decorate --color=always --graph -20 {1}'
-			) || return
-
-			[[ -n "$branch" ]] && git switch "$branch"
-			;;
-		remote)
-			local remote_ref branch
-			remote_ref=$(
-				git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/remotes \
-				| grep -v '/HEAD$' \
-				| fzf --prompt='switch remote> ' --ansi \
-					--preview='git log --oneline --decorate --color=always --graph -20 {1}'
-			) || return
-
-			[[ -z "$remote_ref" ]] && return
-			branch="${remote_ref#*/}"
-			if git show-ref --verify --quiet "refs/heads/$branch"; then
-				git switch "$branch"
-			else
-				git switch --track "$remote_ref"
-			fi
-			;;
-		*)
-			print -u2 "gswitch: unknown action '$action' (local|remote)"
-			return 1
-			;;
-	esac
 }
 
-# High-frequency switch shortcuts (unambiguous)
-alias gswl='gswitch local'
-alias gswr='gswitch remote'
 alias gswc='git switch -c'
 
 # log: show | hash
