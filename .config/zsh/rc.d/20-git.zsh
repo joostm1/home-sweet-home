@@ -1,7 +1,28 @@
 # Git helpers. Interactive fzf workflows are functions, not aliases.
 
 alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gb='git branch'
+alias gbd='git branch -d'
+alias gc='git commit'
+alias gca='git commit --amend'
+alias gcam='git commit -am'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gf='git fetch'
+alias gl='git pull'
+alias glo='git log --oneline --decorate'
+alias glog='git log --oneline --decorate --graph'
+alias gp='git push'
+alias gr='git restore'
+alias grs='git restore --staged'
+alias gsh='git show'
 alias gst='git status -sb'
+alias gsta='git stash'
+alias gstp='git stash pop'
+alias gsw='git switch'
+alias gswc='git switch -c'
 
 # Local branch → git switch
 gfb() {
