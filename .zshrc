@@ -82,6 +82,7 @@ UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 extra_cmd_search_dirs=(
 	~/bin
 	~/.bin
+	~/go/bin
 	$XDG_BIN
 	$FZF_BASE/bin
 	/usr/local/go/bin
