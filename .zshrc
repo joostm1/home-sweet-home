@@ -53,31 +53,6 @@ UMASK=027 # remove w from group and rwx from other
 	# LocalForward 2200 localhost:22
 EOT
 
-# fetch favorites
-## oh-my
-[[ ! -d $ZSH ]] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-## syntax highlighting
-[[ ! -d $ZSH/custom/plugins/zsh-syntax-highlighting ]] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting
-## autosuggestions
-[[ ! -d $ZSH/custom/plugins/zsh-autosuggestions ]] && git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
-## Fuzzy finder
-[[ ! -d $FZF_BASE ]] && git clone --depth 1 https://github.com/junegunn/fzf.git $FZF_BASE && $FZF_BASE/install --bin --no-update-rc --no-bash --no-fish
-## uv
-[[ ! -x $XDG_BIN/uv ]] && curl -LsSf https://astral.sh/uv/install.sh | sh
-UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
-## opencode
-[[ ! -x $HOME/.opencode/bin/opencode ]] && curl -fsSL https://opencode.ai/install | bash
-## zoxide directory jumper
-[[ ! -x $XDG_BIN/zoxide ]] && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-## snow cli
-[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/snowflake-cli ]] && $XDG_BIN/uv tool install snowflake-cli
-## dbt-core -- who can go without it?
-[[ ! -z $UV_TOOL_DIR ]] && [[ ! -d $UV_TOOL_DIR/dbt-core ]] && $XDG_BIN/uv tool install dbt-core --with dbt-postgres,dbt-snowflake --python 3.13 && ln -fs $UV_TOOL_DIR/dbt-core/bin/dbt $XDG_BIN/dbt-core
-## tmux plugins
-[[ ! -d $HOME/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm && $HOME/.tmux/plugins/tpm/bin/install_plugins
-## node version manager
-[[ ! -d $NVM_DIR ]] && git clone https://github.com/nvm-sh/nvm.git $NVM_DIR
-
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
 	~/bin
@@ -92,15 +67,16 @@ for d in "${extra_cmd_search_dirs[@]}"; do
 done
 
 plugins=(
+	git
 	gitfast
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 	ssh-agent
 )
-eval "$(zoxide init zsh)"
-source $ZSH/oh-my-zsh.sh
-source <($FZF_BASE/bin/fzf --zsh)
-source "$NVM_DIR/nvm.sh"  # This loads nvm
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+[[ -r $ZSH/oh-my-zsh.sh ]] && source $ZSH/oh-my-zsh.sh
+[[ -x $FZF_BASE/bin/fzf ]] && source <($FZF_BASE/bin/fzf --zsh)
+[[ -r $NVM_DIR/nvm.sh ]] && source "$NVM_DIR/nvm.sh"
 
 # source in aliases
 for rc in "$XDG_CONFIG_HOME"/zsh/rc.d/*.zsh(N); do

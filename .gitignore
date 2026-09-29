@@ -8,6 +8,7 @@
 !.profile
 !.tmux.conf
 !.zshrc
+!install
 !.config/
 !.config/zsh/
 !.config/zsh/rc.d/
