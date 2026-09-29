@@ -3,14 +3,14 @@
 # Piped stdin has no script directory; sibling .zshrc means we are in a checkout.
 # ${0:A:h} is the script's absolute directory (:A realpath, :h dirname).
 here=${0:A:h}
-rsync_opts=(-a)
 if [[ -f $0 && -f $here/.zshrc ]]; then
 	src=$here
-	rsync_opts+=(-v)
+	rsync_opts=(-av)
 else
 	src=$(mktemp -d)
 	trap "rm -rf ${(q)src}" EXIT
 	git clone --depth 1 https://github.com/joostm1/home-sweet-home.git "$src"
+	rsync_opts=(-a)
 fi
 
 rsync "${rsync_opts[@]}" --exclude .git --exclude .gitignore --exclude README.md --exclude install "$src/" "$HOME/"
