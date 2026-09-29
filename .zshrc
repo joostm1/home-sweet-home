@@ -85,7 +85,6 @@ extra_cmd_search_dirs=(
 	~/go/bin
 	$XDG_BIN
 	$FZF_BASE/bin
-	/usr/local/go/bin
 	~/.opencode/bin
 )
 for d in "${extra_cmd_search_dirs[@]}"; do
