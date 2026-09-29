@@ -3,15 +3,17 @@
 # Piped stdin has no script directory; sibling .zshrc means we are in a checkout.
 # ${0:A:h} is the script's absolute directory (:A realpath, :h dirname).
 here=${0:A:h}
+rsync_opts=(-a)
 if [[ -f $0 && -f $here/.zshrc ]]; then
 	src=$here
+	rsync_opts+=(-v)
 else
 	src=$(mktemp -d)
 	trap "rm -rf ${(q)src}" EXIT
 	git clone --depth 1 https://github.com/joostm1/home-sweet-home.git "$src"
 fi
 
-rsync -a --exclude .git --exclude .gitignore --exclude README.md --exclude install "$src/" "$HOME/"
+rsync "${rsync_opts[@]}" --exclude .git --exclude .gitignore --exclude README.md --exclude install "$src/" "$HOME/"
 
 XDG_DATA_HOME=$HOME/.local/share
 XDG_BIN=$XDG_DATA_HOME/../bin # where xdg aware tools install binaries
@@ -43,3 +45,6 @@ UV_TOOL_DIR=$($XDG_BIN/uv tool dir)
 [[ ! -d $HOME/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm && $HOME/.tmux/plugins/tpm/bin/install_plugins
 ## node version manager
 [[ ! -d $NVM_DIR ]] && git clone https://github.com/nvm-sh/nvm.git $NVM_DIR
+
+# Last [[ is false when that tool already exists; without this the script exits 1.
+:

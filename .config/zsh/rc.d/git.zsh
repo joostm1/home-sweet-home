@@ -36,6 +36,8 @@ _gsw_pick() {
 	fi
 }
 
+# oh-my-zsh plugins/git aliases gsw='git switch'; drop it before the function is parsed.
+unalias gsw gswc 2>/dev/null
 gsw()  { _gsw_pick refs/heads refs/remotes }
 gswl() { _gsw_pick refs/heads }
 gswr() { _gsw_pick refs/remotes }

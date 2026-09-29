@@ -6,10 +6,14 @@ Dotfiles for a zsh + tmux workstation.
 
 This tree is meant to be copied into `$HOME`. Git only tracks an allowlist (see [`.gitignore`](.gitignore)); everything else in a real home directory stays untracked.
 
-## Installation
+## Installation from the remote repo
 
 ```sh
 curl -LsSf https://raw.githubusercontent.com/joostm1/home-sweet-home/main/install | zsh
 ```
 
-That rsyncs the tree into `$HOME` (overwrites dest files, leaves extra `$HOME` files alone; skips `.git`, `.gitignore`, `README.md`, and `install`) and fetches oh-my-zsh, fzf, uv, zoxide, nvm, and a few CLI tools. From a clone, `./install` does the same without re-downloading the tree.
+## Installation from a local checkout
+
+```sh
+./install
+```
