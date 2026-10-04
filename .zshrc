@@ -19,24 +19,24 @@ addtopath ()
 }
 
 # match the default XDG directories
-XDG_DATA_HOME="$HOME/.local/share"
-XDG_CONFIG_HOME="$HOME/.config"
-XDG_CACHE_HOME="$HOME/.cache"
-XDG_STATE_HOME="$HOME/.local/state"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
 
 # random assortment of environment variables to help our forthcoming zsh experience
-XDG_BIN=$XDG_DATA_HOME/../bin # where xdg aware tools install binaries
-UV_SYSTEM_CERTS=true # uv should use system certs instead of vendored ones
-DBT_LOG_PATH=/tmp/dbt-logs # to prevent fdbt fusion create a logs dir in every repo
+export XDG_BIN=$XDG_DATA_HOME/../bin # where xdg aware tools install binaries
+export UV_SYSTEM_CERTS=true # uv should use system certs instead of vendored ones
+export DBT_LOG_PATH=/tmp/dbt-logs # to prevent fdbt fusion create a logs dir in every repo
+export NVM_DIR=$HOME/.nvm # where node version manager lives
+export FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
+
 ZSH=$HOME/.oh-my-zsh # did oh-my scoop $ZSH?
 ZSH_THEME=sunaku
-FZF_DEFAULT_OPTS=--tmux # use fzf in tmux
 FZF_BASE=$HOME/.fzf # fuzzy finder
-NVM_DIR=$HOME/.nvm # where node version manager lives
-UMASK=027 # remove w from group and rwx from other
 
 # .ssh for starters
-[[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT>$HOME/.ssh/config
+[[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh && chmod u=rwx,g=,o= $HOME/.ssh && cat <<-EOT >$HOME/.ssh/config
 	AddKeysToAgent yes
 
 	## example azure devops
@@ -52,6 +52,7 @@ UMASK=027 # remove w from group and rwx from other
 	# ForwardAgent yes
 	# LocalForward 2200 localhost:22
 EOT
+umask 027 # remove w from group and rwx from other
 
 # enumerate directories to be added to $PATH
 extra_cmd_search_dirs=(
