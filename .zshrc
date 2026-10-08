@@ -62,6 +62,7 @@ extra_cmd_search_dirs=(
 	$XDG_BIN
 	$FZF_BASE/bin
 	~/.opencode/bin
+	~/.local/bin
 )
 for d in "${extra_cmd_search_dirs[@]}"; do
 	[[ -d "$d" ]] && PATH=$(addtopath "$d")
